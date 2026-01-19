@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cổng Tuyển Sinh Số - Cao Đẳng Việt Mỹ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-orange: #F36F21;
+            --deep-blue: #003366;
+            --accent-blue: #00509d;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.9);
+            --shadow-color: rgba(0, 51, 102, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            width: 100%;
+            overflow-x: hidden; /* Tránh thanh cuộn ngang */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Background kết hợp màu thương hiệu và ảnh nền trường học mờ */
+            background: linear-gradient(135deg, rgba(0,51,102,0.9), rgba(243,111,33,0.85)), 
+                        url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 20px;
+        }
+
+        /* Các khối trang trí nền (Floating shapes) */
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: 0;
+            animation: floatShape 8s ease-in-out infinite;
+        }
+        .shape-1 { width: 400px; height: 400px; background: rgba(243, 111, 33, 0.4); top: -10%; left: -10%; }
+        .shape-2 { width: 500px; height: 500px; background: rgba(0, 51, 102, 0.5); bottom: -10%; right: -10%; animation-delay: -4s; }
+
+        @keyframes floatShape {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+
+        /* Thẻ chính (Glass Card) */
+        .glass-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1100px;
+            min-height: 650px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(255,255,255,0.5);
+            display: flex;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        /* Cột nội dung trái */
+        .content-side {
+            flex: 1;
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
+        }
+
+        /* Logo đã fix link sang raw.githubusercontent */
+        .logo { 
+            max-width: 260px; 
+            margin-bottom: 30px; 
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+            transition: transform 0.3s;
+        }
+        .logo:hover { transform: scale(1.02); }
+
+        /* Typography */
+        .badge {
+            display: inline-block;
+            background: rgba(243, 111, 33, 0.1);
+            color: var(--primary-orange);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            border: 1px solid rgba(243, 111, 33, 0.3);
+        }
+
+        h1 {
+            font-size: 3rem;
+            line-height: 1.2;
+            font-weight: 900;
+            color: var(--deep-blue);
+            margin-bottom: 25px;
+            letter-spacing: -1px;
+        }
+        
+        h1 span { 
+            color: var(--primary-orange); 
+            display: block;
+            font-size: 1.1em; /* Làm phần nhấn mạnh to hơn chút */
+        }
+
+        p.desc {
+            font-size: 1.15rem;
+            color: #555;
+            font-weight: 500;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            max-width: 90%;
+            border-left: 4px solid var(--primary-orange);
+            padding-left: 20px;
+        }
+
+        /* Nút bấm CTA hiện đại */
+        .cta-btn {
+            position: relative;
+            padding: 20px 45px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: white;
+            background: linear-gradient(135deg, var(--primary-orange), #ff8c42);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(243, 111, 33, 0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            overflow: hidden;
+            text-transform: uppercase;
+        }
+
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(243, 111, 33, 0.6);
+            padding-right: 55px; /* Hiệu ứng đẩy nhẹ */
+        }
+
+        .cta-btn:hover::before { left: 100%; }
+
+        /* Cột hình ảnh phải */
+        .visual-side {
+            flex: 0.9;
+            background: linear-gradient(135deg, #eef2f6 0%, #ffffff 100%);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            /* Họa tiết giấy tập học sinh */
+            background-image: radial-gradient(var(--deep-blue) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.9;
+        }
+
+        /* Thiết kế minh họa CSS thuần */
+        .illustration-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            animation: floatImage 6s ease-in-out infinite;
+        }
+
+        /* Bong bóng chat lớn */
+        .chat-bubble-main {
+            width: 220px;
+            height: 160px;
+            background: var(--deep-blue);
+            border-radius: 20px 20px 20px 0;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 15px 30px rgba(0,51,102,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 3rem;
+            z-index: 2;
+        }
+
+        /* Bong bóng phụ cam */
+        .chat-bubble-sub {
+            width: 100px;
+            height: 80px;
+            background: var(--primary-orange);
+            border-radius: 20px 20px 0 20px;
+            position: absolute;
+            top: 30%; right: 10%;
+            box-shadow: 0 10px 20px rgba(243, 111, 33, 0.3);
+            z-index: 1;
+            animation: pulse 3s infinite;
+        }
+
+        /* Các icon trang trí */
+        .deco-icon {
+            font-size: 40px;
+            position: absolute;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+        }
+        .icon-1 { top: 20%; left: 10%; animation: bounce 4s infinite; }
+        .icon-2 { bottom: 20%; right: 20%; animation: bounce 5s infinite 1s; }
+        .icon-3 { bottom: 10%; left: 30%; font-size: 20px; animation: bounce 3s infinite; }
+
+        @keyframes floatImage {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsive Mobile & Tablet */
+        @media (max-width: 968px) {
+            body { padding: 15px; height: auto; display: block; overflow-y: auto; }
+            
+            .glass-container {
+                flex-direction: column-reverse; /* Đảo ngược để ảnh lên trên hoặc dưới tùy ý, ở đây tôi để content lên trên */
+                flex-direction: column;
+                height: auto;
+                min-height: auto;
+                border-radius: 25px;
+            }
+
+            .content-side {
+                padding: 40px 25px;
+                align-items: center;
+                text-align: center;
+            }
+
+            .desc { border-left: none; padding-left: 0; }
+            
+            h1 { font-size: 2rem; }
+            .logo { width: 200px; margin: 0 auto 20px auto; }
+            
+            .visual-side {
+                min-height: 250px;
+                width: 100%;
+            }
+            
+            .illustration-container { transform: scale(0.8); }
+            
+            .cta-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+
+    <main class="glass-container">
+        <section class="content-side">
+            <img src="https://raw.githubusercontent.com/duongcanhquan/image/main/Logo%20Cao%20%C4%91a%CC%86%CC%89ng%20Vie%CC%A3%CC%82t%20My%CC%83%20-%20ba%CC%89n%20chua%CC%82%CC%89n%202025-01.png" alt="Logo Cao Đẳng Việt Mỹ" class="logo">
+            
+            <div class="badge">TUYỂN SINH 2026</div>
+            
+            <h1>Khởi Đầu Vững Chắc<br><span>TƯƠNG LAI RỘNG MỞ</span></h1>
+            
+            <p class="desc">
+                Khám phá môi trường học tập chuẩn Quốc tế. <br>
+                Hỗ trợ tư vấn 24/7 về ngành học, học phí & cơ hội việc làm hấp dẫn.
+            </p>
+
+            <button onclick="openChatApp()" class="cta-btn">
+                Tư vấn ngay 
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </section>
+
+        <section class="visual-side">
+            <div class="illustration-container">
+                <div class="chat-bubble-main">🎓</div>
+                <div class="chat-bubble-sub"></div>
+                <div class="deco-icon icon-1">📚</div>
+                <div class="deco-icon icon-2">💻</div>
+                <div class="deco-icon icon-3">✨</div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function openChatApp() {
+            const url = "https://notebooklm.google.com/notebook/87d86e86-535f-43d9-b018-a60a86394e80";
+            
+            // Logic tính toán vị trí giữa màn hình
+            const w = 500;
+            const h = 700;
+            // Xử lý dual screen
+            const dualScreenLeft = window.screenLeft !==  undefined ? window.screenLeft : window.screenX;
+            const dualScreenTop = window.screenTop !==  undefined   ? window.screenTop  : window.screenY;
+
+            const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+            const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+            const systemZoom = width / window.screen.availWidth;
+            const left = (width - w) / 2 / systemZoom + dualScreenLeft;
+            const top = (height - h) / 2 / systemZoom + dualScreenTop;
+            
+            const newWindow = window.open(
+                url, 
+                'ChatbotVietMy', 
+                `scrollbars=yes, width=${w / systemZoom}, height=${h / systemZoom}, top=${top}, left=${left}, status=no, menubar=no, toolbar=no, resizable=yes`
+            );
+
+            if (window.focus) newWindow.focus();
+        }
+    </script>
+</body>
+</html>
