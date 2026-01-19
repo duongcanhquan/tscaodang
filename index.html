@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Cổng Tuyển Sinh - Cao Đẳng Việt Mỹ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --brand-orange: #F36F21; 
             --brand-blue: #003366;
-            --accent-light: #e0f2fe; /* Xanh nhạt sáng */
-            --accent-warm: #fff7ed; /* Cam nhạt sáng */
+            --bright-bg: #f8fbff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -20,202 +19,149 @@
             font-family: 'Montserrat', sans-serif;
             width: 100%;
             min-height: 100vh;
-            overflow-x: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Nền sáng nghệ thuật */
-            background: radial-gradient(circle at 10% 20%, rgb(247, 223, 204) 0%, rgb(255, 255, 255) 40%, rgb(225, 241, 252) 80%);
+            /* Nền sáng kết hợp các luồng sáng màu chuyển động */
+            background: 
+                radial-gradient(at 20% 20%, rgba(243, 111, 33, 0.15) 0%, transparent 60%),
+                radial-gradient(at 80% 80%, rgba(0, 51, 102, 0.15) 0%, transparent 60%),
+                radial-gradient(at 50% 50%, rgba(255, 192, 203, 0.15) 0%, transparent 50%),
+                var(--bright-bg);
+            background-size: 200% 200%;
+            animation: bgShift 20s ease-in-out infinite alternate;
             padding: 20px;
+            overflow-x: hidden;
         }
 
-        /* --- CÁC VẬT THỂ TRÔI NỔI (Floating Abstracts) --- */
-        .abstract-container {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
+        @keyframes bgShift {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
         }
 
-        /* Khối cầu cam phát sáng */
-        .orb-1 {
-            position: absolute;
-            width: 300px; height: 300px;
-            background: radial-gradient(circle at 30% 30%, var(--brand-orange), transparent 70%);
-            border-radius: 50%;
-            top: 10%; right: 15%;
-            filter: blur(40px);
-            opacity: 0.4;
-            animation: floatOrb 12s ease-in-out infinite alternate;
+        /* Các khối màu trôi nổi phía sau để tăng hiệu ứng kính */
+        .floating-shapes {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none; overflow: hidden;
         }
+        .shape { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.5; }
+        .shape-1 { width: 400px; height: 400px; background: #FFD1A9; top: -10%; left: -5%; animation: float 15s infinite alternate; }
+        .shape-2 { width: 500px; height: 500px; background: #C4E0FF; bottom: -10%; right: -10%; animation: float 18s infinite alternate-reverse; }
 
-        /* Vòng kính xanh */
-        .glass-ring {
-            position: absolute;
-            width: 400px; height: 400px;
-            border: 30px solid rgba(0, 51, 102, 0.05);
-            border-radius: 50%;
-            bottom: 5%; left: 10%;
-            backdrop-filter: blur(10px);
-            transform: rotateX(45deg) rotateY(20deg);
-            animation: rotateRing 25s linear infinite;
-        }
-
-        @keyframes floatOrb { 0% { transform: translateY(0) scale(1); } 100% { transform: translateY(-50px) scale(1.1); } }
-        @keyframes rotateRing { 100% { transform: rotateX(45deg) rotateY(20deg) rotateZ(360deg); } }
+        @keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(40px, 60px); } }
 
 
-        /* --- KIẾN TRÚC KÍNH CHÍNH (Main Glass Structure) --- */
-        .glass-prism {
+        /* --- TẤM THẺ KÍNH MÀU SẮC (Colorful Glass Card) --- */
+        .glass-card {
             position: relative;
             z-index: 10;
             width: 100%;
-            max-width: 950px;
-            /* Tạo nhiều lớp kính chồng lên nhau bằng box-shadow và border */
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(40px) saturate(120%); /* Kính làm tăng độ rực màu */
-            -webkit-backdrop-filter: blur(40px) saturate(120%);
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            /* Hiệu ứng đổ bóng đa tầng tạo chiều sâu */
+            max-width: 900px;
+            padding: 70px 40px;
+            /* Nền kính trong suốt */
+            background: rgba(255, 255, 255, 0.3);
+            /* Blur mạnh và Tăng độ bão hòa màu để kính trông rực rỡ hơn */
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border-radius: 40px;
+            /* Viền kính sáng */
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            /* Kỹ thuật tạo kính màu: Kết hợp nhiều lớp bóng đổ màu sắc bên trong (inset) và bên ngoài */
             box-shadow: 
-                0 20px 40px rgba(0, 51, 102, 0.1), 
-                inset 0 0 30px rgba(255, 255, 255, 0.5),
-                0 0 0 15px rgba(255,255,255,0.1); /* Viền kính ngoài cùng */
-            padding: 80px 50px;
+                inset 0 0 40px rgba(243, 111, 33, 0.1), /* Ánh cam bên trong */
+                inset 0 20px 20px rgba(255, 255, 255, 0.5), /* Phản chiếu ánh sáng trắng trên đỉnh */
+                0 30px 70px -20px rgba(0, 51, 102, 0.3), /* Bóng đổ chính màu xanh đậm */
+                0 0 30px rgba(243, 111, 33, 0.1); /* Vòng hào quang nhẹ màu cam bên ngoài */
+            
             text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow: hidden;
-            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: flex; flex-direction: column; align-items: center;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Hiệu ứng nghiêng nhẹ khi di chuột vào cả khối */
-        .glass-prism:hover {
-            transform: perspective(1000px) rotateX(1deg) rotateY(1deg) scale(1.01);
+        .glass-card:hover {
+            transform: translateY(-5px) scale(1.01);
         }
         
-        /* Dải sáng phản chiếu trên mặt kính */
-        .glass-prism::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -50%; width: 100%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
-            transform: skewX(-25deg);
-            pointer-events: none;
-            animation: shine 8s infinite ease-in-out;
+        /* Hiệu ứng vệt sáng quét qua kính */
+        .glass-card::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.8), transparent);
+            transform: skewX(-25deg); animation: shine 6s infinite; pointer-events: none;
         }
-        @keyframes shine { 0%, 100% { left: -100%; } 50% { left: 150%; } }
+        @keyframes shine { 0% { left: -100%; opacity: 0; } 50% { left: 150%; opacity: 1; } 100% { left: 150%; opacity: 0; } }
 
 
-        /* --- NỘI DUNG BÊN TRONG --- */
-        .logo { 
-            max-width: 260px; 
-            margin-bottom: 50px; 
-            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.05));
-            position: relative;
-            z-index: 2;
-        }
+        /* --- NỘI DUNG --- */
+        .logo { width: 240px; margin-bottom: 40px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.05)); }
 
         .badge {
             display: inline-block;
-            font-size: 1rem;
-            font-weight: 800;
-            letter-spacing: 2px;
+            font-size: 0.95rem; font-weight: 800;
             color: var(--brand-blue);
-            background: linear-gradient(to right, rgba(243, 111, 33, 0.1), rgba(0, 51, 102, 0.1));
-            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.7); /* Nền badge sáng hơn */
+            padding: 10px 25px;
             border-radius: 50px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255,255,255,0.5);
-            position: relative; z-index: 2;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            border: 2px solid var(--brand-orange); /* Viền cam nổi bật */
+            box-shadow: 0 5px 15px rgba(243, 111, 33, 0.15);
         }
 
-        /* Typography Nghệ thuật */
         h1 {
-            font-size: 4.5rem;
-            line-height: 1.05;
-            font-weight: 900;
-            color: var(--brand-blue);
+            font-size: 4rem; line-height: 1.1;
+            font-weight: 900; color: var(--brand-blue);
             margin-bottom: 30px;
-            position: relative; z-index: 2;
         }
 
-        /* Hiệu ứng chữ "Tương lai rộng mở" */
-        .art-text {
-            display: block;
-            /* Gradient text kết hợp texture */
-            background: linear-gradient(135deg, var(--brand-orange) 30%, #ffba85 70%);
+        /* Chữ gradient rực rỡ */
+        .vibrant-text {
+            background: linear-gradient(90deg, var(--brand-orange), #FF416C);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            /* Thêm bóng nhẹ để tách khỏi nền */
-            filter: drop-shadow(0 5px 5px rgba(243, 111, 33, 0.2));
-            transform: scale(1.05);
-            display: inline-block;
+            display: block; margin-top: 5px;
+            filter: drop-shadow(0 2px 5px rgba(243, 111, 33, 0.3));
         }
 
         p.desc {
-            font-size: 1.25rem;
-            color: #556677;
-            font-weight: 500;
-            max-width: 750px;
-            margin: 0 auto 60px auto;
-            line-height: 1.7;
-            position: relative; z-index: 2;
+            font-size: 1.2rem; color: #475569;
+            font-weight: 600; max-width: 700px;
+            margin: 0 auto 50px auto; line-height: 1.6;
         }
 
-        /* Nút bấm "Pha lê" (Crystal Button) */
-        .btn-crystal {
-            position: relative;
-            padding: 25px 70px;
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: white;
-            /* Nền gradient kết hợp kính */
-            background: linear-gradient(135deg, var(--brand-orange), #ff7e33);
-            border: none;
-            border-radius: 60px;
-            cursor: pointer;
-            z-index: 2;
-            box-shadow: 
-                0 20px 40px -10px rgba(243, 111, 33, 0.6),
-                inset 0 -5px 10px rgba(0,0,0,0.1), /* Tạo khối */
-                inset 0 5px 10px rgba(255,255,255,0.4); /* Tạo độ bóng trên */
+        /* Nút bấm nổi bật */
+        .btn-glow {
+            padding: 22px 65px;
+            font-size: 1.3rem; font-weight: 800; color: white;
+            background: linear-gradient(45deg, var(--brand-orange), #ff8c42);
+            border: none; border-radius: 100px; cursor: pointer;
+            box-shadow: 0 15px 30px -10px rgba(243, 111, 33, 0.7);
             transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
             display: flex; align-items: center; gap: 15px;
+            text-transform: uppercase;
+        }
+        .btn-glow:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 20px 40px -10px rgba(243, 111, 33, 0.9);
+            background: linear-gradient(45deg, #ff8c42, var(--brand-orange));
         }
 
-        .btn-crystal:hover {
-            transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 30px 50px -15px rgba(243, 111, 33, 0.8);
-        }
-
-        /* --- RESPONSIVE --- */
+        /* RESPONSIVE */
         @media (max-width: 768px) {
-            h1 { font-size: 2.8rem; }
-            .art-text { transform: scale(1); } /* Reset scale trên mobile */
-            .glass-prism { padding: 50px 25px; border-radius: 35px; }
+            h1 { font-size: 2.5rem; }
+            .glass-card { padding: 50px 25px; }
             p.desc { font-size: 1.1rem; }
             .logo { width: 200px; }
-            .btn-crystal { width: 100%; padding: 22px; justify-content: center; font-size: 1.1rem; }
-            /* Ẩn bớt hiệu ứng nền trên mobile để tối ưu hiệu năng */
-            .glass-ring { display: none; }
-            .orb-1 { opacity: 0.3; }
+            .btn-glow { width: 100%; padding: 20px; justify-content: center; font-size: 1.1rem; }
         }
     </style>
 </head>
 <body>
-
-    <div class="abstract-container">
-        <div class="orb-1"></div>
-        <div class="glass-ring"></div>
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
     </div>
 
-    <main class="glass-prism">
+    <main class="glass-card">
         
         <img src="https://raw.githubusercontent.com/duongcanhquan/image/main/Logo%20Cao%20%C4%91a%CC%86%CC%89ng%20Vie%CC%A3%CC%82t%20My%CC%83%20-%20ba%CC%89n%20chua%CC%82%CC%89n%202025-01.png" alt="Logo Việt Mỹ" class="logo">
 
@@ -223,17 +169,17 @@
 
         <h1>
             KHỞI ĐẦU VỮNG CHẮC<br>
-            <span class="art-text">TƯƠNG LAI RỘNG MỞ</span>
+            <span class="vibrant-text">TƯƠNG LAI RỘNG MỞ</span>
         </h1>
 
         <p class="desc">
-            Giải đáp mọi thắc mắc về Ngành học, Học phí & Cơ hội việc làm cùng VIETMY COLLEGE.
+            Không gian học tập sáng tạo chuẩn Quốc tế. <br>Giải đáp 24/7 mọi thắc mắc về Ngành học, Học phí & Cơ hội việc làm.
         </p>
 
-        <button onclick="openChatApp()" class="btn-crystal">
+        <button onclick="openChatApp()" class="btn-glow">
             Tư Vấn Ngay
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M13 5L20 12L13 19M4 12H20" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </button>
 
