@@ -8,12 +8,11 @@
     
     <style>
         :root {
-            --primary-orange: #F36F21;
-            --deep-blue: #003366;
-            --accent-blue: #00509d;
-            --glass-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.9);
-            --shadow-color: rgba(0, 51, 102, 0.15);
+            /* Màu trích xuất chính xác từ Logo */
+            --brand-orange: #F36F21; 
+            --brand-blue: #003366;
+            --bg-light: #F8F9FA;
+            --text-dark: #2C3E50;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -22,328 +21,262 @@
             font-family: 'Montserrat', sans-serif;
             min-height: 100vh;
             width: 100%;
-            overflow-x: hidden; /* Tránh thanh cuộn ngang */
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Background kết hợp màu thương hiệu và ảnh nền trường học mờ */
-            background: linear-gradient(135deg, rgba(0,51,102,0.9), rgba(243,111,33,0.85)), 
-                        url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            padding: 20px;
+            background-color: var(--bg-light);
+            /* Nền họa tiết nhẹ nhàng */
+            background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+            background-size: 30px 30px;
+            padding: 30px;
+            overflow-x: hidden;
         }
 
-        /* Các khối trang trí nền (Floating shapes) */
-        .bg-shape {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(60px);
-            z-index: 0;
-            animation: floatShape 8s ease-in-out infinite;
-        }
-        .shape-1 { width: 400px; height: 400px; background: rgba(243, 111, 33, 0.4); top: -10%; left: -10%; }
-        .shape-2 { width: 500px; height: 500px; background: rgba(0, 51, 102, 0.5); bottom: -10%; right: -10%; animation-delay: -4s; }
-
-        @keyframes floatShape {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(30px, -30px); }
-        }
-
-        /* Thẻ chính (Glass Card) */
-        .glass-container {
-            position: relative;
-            z-index: 10;
+        /* Container chính */
+        .main-card {
             width: 100%;
-            max-width: 1100px;
+            max-width: 1200px;
             min-height: 650px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 40px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(255,255,255,0.5);
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
             display: flex;
             overflow: hidden;
-            transition: transform 0.3s ease;
+            position: relative;
         }
 
-        /* Cột nội dung trái */
+        /* --- CỘT TRÁI: NỘI DUNG --- */
         .content-side {
             flex: 1;
-            padding: 60px 50px;
+            padding: 70px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: flex-start;
-            position: relative;
+            z-index: 2;
         }
 
-        /* Logo đã fix link sang raw.githubusercontent */
         .logo { 
-            max-width: 260px; 
-            margin-bottom: 30px; 
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
-            transition: transform 0.3s;
+            max-width: 250px; 
+            margin-bottom: 40px;
         }
-        .logo:hover { transform: scale(1.02); }
 
-        /* Typography */
+        /* Badge nhỏ trên tiêu đề */
         .badge {
             display: inline-block;
-            background: rgba(243, 111, 33, 0.1);
-            color: var(--primary-orange);
-            padding: 8px 16px;
-            border-radius: 20px;
+            font-size: 0.85rem;
             font-weight: 700;
-            font-size: 0.9rem;
+            color: var(--brand-blue);
+            background: rgba(0, 51, 102, 0.1);
+            padding: 8px 15px;
+            border-radius: 50px;
             margin-bottom: 20px;
             letter-spacing: 1px;
-            border: 1px solid rgba(243, 111, 33, 0.3);
         }
 
         h1 {
-            font-size: 3rem;
-            line-height: 1.2;
+            font-size: 3.2rem;
+            line-height: 1.15;
             font-weight: 900;
-            color: var(--deep-blue);
+            color: var(--brand-blue);
             margin-bottom: 25px;
-            letter-spacing: -1px;
         }
         
+        /* Sử dụng màu cam thương hiệu cho phần nhấn mạnh */
         h1 span { 
-            color: var(--primary-orange); 
+            color: var(--brand-orange); 
             display: block;
-            font-size: 1.1em; /* Làm phần nhấn mạnh to hơn chút */
         }
 
         p.desc {
             font-size: 1.15rem;
-            color: #555;
+            color: #5a6a85;
             font-weight: 500;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
             line-height: 1.6;
             max-width: 90%;
-            border-left: 4px solid var(--primary-orange);
-            padding-left: 20px;
         }
 
-        /* Nút bấm CTA hiện đại */
+        /* Nút bấm CTA */
         .cta-btn {
-            position: relative;
             padding: 20px 45px;
-            font-size: 1.2rem;
-            font-weight: 800;
+            font-size: 1.1rem;
+            font-weight: 700;
             color: white;
-            background: linear-gradient(135deg, var(--primary-orange), #ff8c42);
+            background: var(--brand-orange);
             border: none;
-            border-radius: 50px;
+            border-radius: 16px;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(243, 111, 33, 0.4);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
+            box-shadow: 0 10px 20px -5px rgba(243, 111, 33, 0.5);
+            transition: all 0.3s ease;
+            display: inline-flex;
             align-items: center;
-            gap: 15px;
-            overflow: hidden;
+            gap: 10px;
             text-transform: uppercase;
-        }
-
-        .cta-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: 0.5s;
+            letter-spacing: 0.5px;
         }
 
         .cta-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(243, 111, 33, 0.6);
-            padding-right: 55px; /* Hiệu ứng đẩy nhẹ */
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px -5px rgba(243, 111, 33, 0.7);
+            background: #e06018;
         }
+        
+        .cta-btn svg { transition: transform 0.3s ease; }
+        .cta-btn:hover svg { transform: translateX(5px); }
 
-        .cta-btn:hover::before { left: 100%; }
 
-        /* Cột hình ảnh phải */
+        /* --- CỘT PHẢI: HÌNH ẢNH VÀ HIỆU ỨNG --- */
         .visual-side {
-            flex: 0.9;
-            background: linear-gradient(135deg, #eef2f6 0%, #ffffff 100%);
+            flex: 1.1;
             position: relative;
+            /* Tạo vùng chứa cho hiệu ứng 3D */
+            perspective: 1000px; 
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff5f0, #edf2f7);
             overflow: hidden;
-            /* Họa tiết giấy tập học sinh */
-            background-image: radial-gradient(var(--deep-blue) 1px, transparent 1px);
-            background-size: 20px 20px;
-            opacity: 0.9;
         }
 
-        /* Thiết kế minh họa CSS thuần */
-        .illustration-container {
+        /* Container của ảnh để áp dụng hiệu ứng nghiêng */
+        .image-tilt-box {
+            width: 90%;
+            height: 90%;
             position: relative;
-            width: 300px;
-            height: 300px;
-            animation: floatImage 6s ease-in-out infinite;
+            border-radius: 25px;
+            /* Hiệu ứng chuyển động mượt mà */
+            transition: transform 0.1s ease-out; 
+            transform-style: preserve-3d;
+            will-change: transform;
         }
 
-        /* Bong bóng chat lớn */
-        .chat-bubble-main {
-            width: 220px;
-            height: 160px;
-            background: var(--deep-blue);
-            border-radius: 20px 20px 20px 0;
+        /* Hình ảnh sinh viên */
+        .student-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 25px;
+            box-shadow: 20px 30px 60px rgba(0,0,0,0.15);
+            /* Đẩy ảnh nổi lên một chút trong không gian 3D */
+            transform: translateZ(20px); 
+        }
+
+        /* Lớp phủ trang trí trên ảnh */
+        .overlay-deco {
             position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 15px 30px rgba(0,51,102,0.3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 3rem;
-            z-index: 2;
+            top: 10%; right: -5%;
+            background: var(--brand-blue);
+            width: 80%;
+            height: 80%;
+            border-radius: 25px;
+            z-index: -1;
+            opacity: 0.1;
+            transform: translateZ(0px) rotate(5deg);
         }
 
-        /* Bong bóng phụ cam */
-        .chat-bubble-sub {
-            width: 100px;
-            height: 80px;
-            background: var(--primary-orange);
-            border-radius: 20px 20px 0 20px;
-            position: absolute;
-            top: 30%; right: 10%;
-            box-shadow: 0 10px 20px rgba(243, 111, 33, 0.3);
-            z-index: 1;
-            animation: pulse 3s infinite;
-        }
 
-        /* Các icon trang trí */
-        .deco-icon {
-            font-size: 40px;
-            position: absolute;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
-        }
-        .icon-1 { top: 20%; left: 10%; animation: bounce 4s infinite; }
-        .icon-2 { bottom: 20%; right: 20%; animation: bounce 5s infinite 1s; }
-        .icon-3 { bottom: 10%; left: 30%; font-size: 20px; animation: bounce 3s infinite; }
-
-        @keyframes floatImage {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        /* Responsive Mobile & Tablet */
-        @media (max-width: 968px) {
-            body { padding: 15px; height: auto; display: block; overflow-y: auto; }
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            body { padding: 15px; height: auto; align-items: flex-start; }
+            .main-card { flex-direction: column; min-height: auto; }
             
-            .glass-container {
-                flex-direction: column-reverse; /* Đảo ngược để ảnh lên trên hoặc dưới tùy ý, ở đây tôi để content lên trên */
-                flex-direction: column;
-                height: auto;
-                min-height: auto;
-                border-radius: 25px;
+            .content-side { 
+                padding: 50px 30px; 
+                text-align: center; 
+                align-items: center; 
+                order: 2; /* Đưa nội dung xuống dưới ảnh trên mobile */
             }
-
-            .content-side {
-                padding: 40px 25px;
-                align-items: center;
-                text-align: center;
-            }
-
-            .desc { border-left: none; padding-left: 0; }
             
-            h1 { font-size: 2rem; }
-            .logo { width: 200px; margin: 0 auto 20px auto; }
-            
+            h1 { font-size: 2.5rem; }
+            p.desc { max-width: 100%; font-size: 1rem; margin-bottom: 30px;}
+            .logo { margin: 0 auto 30px auto; width: 200px;}
+
             .visual-side {
-                min-height: 250px;
-                width: 100%;
+                flex: auto;
+                height: 450px;
+                order: 1; /* Đưa ảnh lên trên */
+                padding: 30px;
             }
-            
-            .illustration-container { transform: scale(0.8); }
-            
-            .cta-btn {
-                width: 100%;
-                justify-content: center;
-            }
+            .image-tilt-box { width: 100%; height: 100%; }
+            .cta-btn { width: 100%; justify-content: center; padding: 18px; }
+        }
+
+        @media (max-width: 480px) {
+            .visual-side { height: 350px; }
+            h1 { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-shape shape-1"></div>
-    <div class="bg-shape shape-2"></div>
-
-    <main class="glass-container">
+    <main class="main-card">
         <section class="content-side">
             <img src="https://raw.githubusercontent.com/duongcanhquan/image/main/Logo%20Cao%20%C4%91a%CC%86%CC%89ng%20Vie%CC%A3%CC%82t%20My%CC%83%20-%20ba%CC%89n%20chua%CC%82%CC%89n%202025-01.png" alt="Logo Cao Đẳng Việt Mỹ" class="logo">
             
-            <div class="badge">TUYỂN SINH 2026</div>
+            <div class="badge">CỔNG THÔNG TIN 2025</div>
             
-            <h1>Khởi Đầu Vững Chắc<br><span>TƯƠNG LAI RỘNG MỞ</span></h1>
+            <h1>Chọn Đúng Trường <br><span>SÁNG TƯƠNG LAI</span></h1>
             
             <p class="desc">
-                Khám phá môi trường học tập chuẩn Quốc tế. <br>
-                Hỗ trợ tư vấn 24/7 về ngành học, học phí & cơ hội việc làm hấp dẫn.
+                Đồng hành cùng bạn trên con đường chinh phục tri thức. <br>Chat ngay để được tư vấn 1:1 về ngành học và học bổng.
             </p>
 
             <button onclick="openChatApp()" class="cta-btn">
-                Tư vấn ngay 
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                Tư vấn trực tuyến
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </button>
         </section>
 
-        <section class="visual-side">
-            <div class="illustration-container">
-                <div class="chat-bubble-main">🎓</div>
-                <div class="chat-bubble-sub"></div>
-                <div class="deco-icon icon-1">📚</div>
-                <div class="deco-icon icon-2">💻</div>
-                <div class="deco-icon icon-3">✨</div>
+        <section class="visual-side" id="visualSide">
+            <div class="image-tilt-box" id="tiltBox">
+                <div class="overlay-deco"></div>
+                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1470&auto=format&fit=crop" alt="Sinh viên Việt Mỹ" class="student-img">
             </div>
         </section>
     </main>
 
     <script>
+        // Script mở cửa sổ chat (Giữ nguyên)
         function openChatApp() {
-            const url = "https://notebooklm.google.com/notebook/87d86e86-535f-43d9-b018-a60a86394e80";
-            
-            // Logic tính toán vị trí giữa màn hình
-            const w = 500;
-            const h = 700;
-            // Xử lý dual screen
+            const url = "https://notebooklm.google.com/notebook/542e05c9-cfde-4961-a083-7790b5f78505";
+            const w = 500; const h = 700;
             const dualScreenLeft = window.screenLeft !==  undefined ? window.screenLeft : window.screenX;
             const dualScreenTop = window.screenTop !==  undefined   ? window.screenTop  : window.screenY;
-
             const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
             const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
-
             const systemZoom = width / window.screen.availWidth;
             const left = (width - w) / 2 / systemZoom + dualScreenLeft;
             const top = (height - h) / 2 / systemZoom + dualScreenTop;
-            
-            const newWindow = window.open(
-                url, 
-                'ChatbotVietMy', 
-                `scrollbars=yes, width=${w / systemZoom}, height=${h / systemZoom}, top=${top}, left=${left}, status=no, menubar=no, toolbar=no, resizable=yes`
-            );
-
+            const newWindow = window.open(url, 'ChatbotVietMy', `scrollbars=yes, width=${w / systemZoom}, height=${h / systemZoom}, top=${top}, left=${left}, status=no, menubar=no, toolbar=no, resizable=yes`);
             if (window.focus) newWindow.focus();
         }
+
+        // --- SCRIPT HIỆU ỨNG 3D TILT ---
+        const visualSide = document.getElementById('visualSide');
+        const tiltBox = document.getElementById('tiltBox');
+
+        // Hàm xử lý khi di chuột trên vùng ảnh
+        visualSide.addEventListener('mousemove', (e) => {
+            const rect = visualSide.getBoundingClientRect();
+            // Tính toán vị trí chuột so với trung tâm của vùng ảnh
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+
+            // Góc nghiêng (điều chỉnh số 20 để tăng/giảm độ nghiêng)
+            const rotateX = y / -20; 
+            const rotateY = x / 20;
+
+            // Áp dụng transform
+            tiltBox.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        // Hàm reset khi chuột rời khỏi vùng ảnh
+        visualSide.addEventListener('mouseleave', () => {
+            tiltBox.style.transform = `rotateX(0deg) rotateY(0deg)`;
+        });
     </script>
 </body>
 </html>
