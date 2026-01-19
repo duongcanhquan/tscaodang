@@ -8,9 +8,10 @@
     
     <style>
         :root {
-            --orange: #F36F21; 
-            --blue: #003366;
-            --dark-blue: #001a33;
+            --brand-orange: #F36F21; 
+            --brand-blue: #003366;
+            --accent-light: #e0f2fe; /* Xanh nhạt sáng */
+            --accent-warm: #fff7ed; /* Cam nhạt sáng */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -18,221 +19,221 @@
         body {
             font-family: 'Montserrat', sans-serif;
             width: 100%;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            overflow-x: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #000; /* Nền gốc đen để màu nổi hơn */
+            /* Nền sáng nghệ thuật */
+            background: radial-gradient(circle at 10% 20%, rgb(247, 223, 204) 0%, rgb(255, 255, 255) 40%, rgb(225, 241, 252) 80%);
+            padding: 20px;
         }
 
-        /* --- 1. HIỆU ỨNG NỀN AURORA (CỰC QUANG) --- */
-        .aurora-bg {
+        /* --- CÁC VẬT THỂ TRÔI NỔI (Floating Abstracts) --- */
+        .abstract-container {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: 0;
-            background: linear-gradient(125deg, #003366, #001a33, #2a0a18, #F36F21);
-            background-size: 400% 400%;
-            animation: auroraMove 15s ease infinite;
-        }
-
-        /* Lớp phủ hạt noise để tạo cảm giác "Giấy sang trọng" */
-        .noise-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1;
-            opacity: 0.05;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
             pointer-events: none;
+            overflow: hidden;
         }
 
-        @keyframes auroraMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* --- 2. CÁC VÒNG TRÒN HÌNH HỌC (THAY THẾ ẢNH) --- */
-        .geo-shape {
+        /* Khối cầu cam phát sáng */
+        .orb-1 {
             position: absolute;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle at 30% 30%, var(--brand-orange), transparent 70%);
             border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 1;
-            pointer-events: none;
+            top: 10%; right: 15%;
+            filter: blur(40px);
+            opacity: 0.4;
+            animation: floatOrb 12s ease-in-out infinite alternate;
         }
-        .circle-1 {
-            width: 600px; height: 600px;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            border: 1px dashed rgba(243, 111, 33, 0.3);
-            animation: spin 60s linear infinite;
-        }
-        .circle-2 {
-            width: 450px; height: 450px;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            animation: spinReverse 40s linear infinite;
-        }
-        
-        @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
-        @keyframes spinReverse { 100% { transform: translate(-50%, -50%) rotate(-360deg); } }
 
-        /* --- 3. THẺ KÍNH TRUNG TÂM (GLASS CARD) --- */
-        .glass-container {
+        /* Vòng kính xanh */
+        .glass-ring {
+            position: absolute;
+            width: 400px; height: 400px;
+            border: 30px solid rgba(0, 51, 102, 0.05);
+            border-radius: 50%;
+            bottom: 5%; left: 10%;
+            backdrop-filter: blur(10px);
+            transform: rotateX(45deg) rotateY(20deg);
+            animation: rotateRing 25s linear infinite;
+        }
+
+        @keyframes floatOrb { 0% { transform: translateY(0) scale(1); } 100% { transform: translateY(-50px) scale(1.1); } }
+        @keyframes rotateRing { 100% { transform: rotateX(45deg) rotateY(20deg) rotateZ(360deg); } }
+
+
+        /* --- KIẾN TRÚC KÍNH CHÍNH (Main Glass Structure) --- */
+        .glass-prism {
             position: relative;
             z-index: 10;
-            width: 90%;
-            max-width: 900px;
-            padding: 80px 40px;
-            background: rgba(255, 255, 255, 0.05); /* Rất trong suốt */
-            backdrop-filter: blur(30px); /* Làm mờ nền cực mạnh */
-            -webkit-backdrop-filter: blur(30px);
-            border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 950px;
+            /* Tạo nhiều lớp kính chồng lên nhau bằng box-shadow và border */
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(40px) saturate(120%); /* Kính làm tăng độ rực màu */
+            -webkit-backdrop-filter: blur(40px) saturate(120%);
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            /* Hiệu ứng đổ bóng đa tầng tạo chiều sâu */
+            box-shadow: 
+                0 20px 40px rgba(0, 51, 102, 0.1), 
+                inset 0 0 30px rgba(255, 255, 255, 0.5),
+                0 0 0 15px rgba(255,255,255,0.1); /* Viền kính ngoài cùng */
+            padding: 80px 50px;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
             overflow: hidden;
-            transition: transform 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        .glass-container:hover {
-            border-color: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 50px 100px rgba(243, 111, 33, 0.15);
+        /* Hiệu ứng nghiêng nhẹ khi di chuột vào cả khối */
+        .glass-prism:hover {
+            transform: perspective(1000px) rotateX(1deg) rotateY(1deg) scale(1.01);
+        }
+        
+        /* Dải sáng phản chiếu trên mặt kính */
+        .glass-prism::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -50%; width: 100%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
+            transform: skewX(-25deg);
+            pointer-events: none;
+            animation: shine 8s infinite ease-in-out;
+        }
+        @keyframes shine { 0%, 100% { left: -100%; } 50% { left: 150%; } }
+
+
+        /* --- NỘI DUNG BÊN TRONG --- */
+        .logo { 
+            max-width: 260px; 
+            margin-bottom: 50px; 
+            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.05));
+            position: relative;
+            z-index: 2;
         }
 
-        /* Logo */
-        .logo-wrapper {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 15px 30px;
-            border-radius: 20px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        .badge {
             display: inline-block;
-        }
-        .logo { height: 60px; display: block; }
-
-        /* Typography */
-        .subtitle {
             font-size: 1rem;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        h1 {
-            font-size: 4rem;
-            line-height: 1.1;
-            font-weight: 900;
-            color: white;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--brand-blue);
+            background: linear-gradient(to right, rgba(243, 111, 33, 0.1), rgba(0, 51, 102, 0.1));
+            padding: 12px 30px;
+            border-radius: 50px;
             margin-bottom: 30px;
-            text-transform: uppercase;
+            border: 1px solid rgba(255,255,255,0.5);
+            position: relative; z-index: 2;
         }
 
-        /* Chữ Gradient "Tương lai rộng mở" */
-        .gradient-text {
-            background: linear-gradient(90deg, #F36F21, #FFD700);
+        /* Typography Nghệ thuật */
+        h1 {
+            font-size: 4.5rem;
+            line-height: 1.05;
+            font-weight: 900;
+            color: var(--brand-blue);
+            margin-bottom: 30px;
+            position: relative; z-index: 2;
+        }
+
+        /* Hiệu ứng chữ "Tương lai rộng mở" */
+        .art-text {
+            display: block;
+            /* Gradient text kết hợp texture */
+            background: linear-gradient(135deg, var(--brand-orange) 30%, #ffba85 70%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(243, 111, 33, 0.3); /* Hiệu ứng neon */
-            display: block;
+            /* Thêm bóng nhẹ để tách khỏi nền */
+            filter: drop-shadow(0 5px 5px rgba(243, 111, 33, 0.2));
+            transform: scale(1.05);
+            display: inline-block;
         }
 
         p.desc {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: 300;
-            max-width: 700px;
-            margin: 0 auto 50px auto;
-            line-height: 1.6;
+            font-size: 1.25rem;
+            color: #556677;
+            font-weight: 500;
+            max-width: 750px;
+            margin: 0 auto 60px auto;
+            line-height: 1.7;
+            position: relative; z-index: 2;
         }
 
-        /* Nút bấm "Liquid" */
-        .btn-liquid {
+        /* Nút bấm "Pha lê" (Crystal Button) */
+        .btn-crystal {
             position: relative;
-            padding: 22px 60px;
+            padding: 25px 70px;
             font-size: 1.3rem;
             font-weight: 800;
             color: white;
-            background: var(--orange);
+            /* Nền gradient kết hợp kính */
+            background: linear-gradient(135deg, var(--brand-orange), #ff7e33);
             border: none;
-            border-radius: 100px;
+            border-radius: 60px;
             cursor: pointer;
-            overflow: hidden;
-            z-index: 1;
-            box-shadow: 0 0 40px rgba(243, 111, 33, 0.4);
-            transition: all 0.4s ease;
+            z-index: 2;
+            box-shadow: 
+                0 20px 40px -10px rgba(243, 111, 33, 0.6),
+                inset 0 -5px 10px rgba(0,0,0,0.1), /* Tạo khối */
+                inset 0 5px 10px rgba(255,255,255,0.4); /* Tạo độ bóng trên */
+            transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
+            display: flex; align-items: center; gap: 15px;
         }
 
-        .btn-liquid::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 0%; height: 100%;
-            background: white;
-            z-index: -1;
-            transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-            border-radius: 100px;
+        .btn-crystal:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 30px 50px -15px rgba(243, 111, 33, 0.8);
         }
-
-        .btn-liquid:hover {
-            color: var(--orange);
-            transform: scale(1.05);
-            box-shadow: 0 0 60px rgba(243, 111, 33, 0.6);
-        }
-        .btn-liquid:hover::before { width: 100%; }
-
-        /* Icon trong nút */
-        .btn-icon { margin-left: 10px; vertical-align: middle; transition: transform 0.3s; }
-        .btn-liquid:hover .btn-icon { transform: translateX(5px); stroke: var(--orange); }
 
         /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .glass-container { padding: 50px 20px; width: 95%; }
-            p.desc { font-size: 1rem; }
-            .circle-1, .circle-2 { width: 100%; height: 100%; border-radius: 0; border: none; } /* Tắt vòng tròn trên mobile cho đỡ rối */
-            .logo { height: 40px; }
-            .btn-liquid { width: 100%; padding: 20px; font-size: 1.1rem; }
+            h1 { font-size: 2.8rem; }
+            .art-text { transform: scale(1); } /* Reset scale trên mobile */
+            .glass-prism { padding: 50px 25px; border-radius: 35px; }
+            p.desc { font-size: 1.1rem; }
+            .logo { width: 200px; }
+            .btn-crystal { width: 100%; padding: 22px; justify-content: center; font-size: 1.1rem; }
+            /* Ẩn bớt hiệu ứng nền trên mobile để tối ưu hiệu năng */
+            .glass-ring { display: none; }
+            .orb-1 { opacity: 0.3; }
         }
     </style>
 </head>
 <body>
 
-    <div class="aurora-bg"></div>
-    <div class="noise-overlay"></div>
-    
-    <div class="geo-shape circle-1"></div>
-    <div class="geo-shape circle-2"></div>
+    <div class="abstract-container">
+        <div class="orb-1"></div>
+        <div class="glass-ring"></div>
+    </div>
 
-    <main class="glass-container">
+    <main class="glass-prism">
         
-        <div class="logo-wrapper">
-            <img src="https://raw.githubusercontent.com/duongcanhquan/image/main/Logo%20Cao%20%C4%91a%CC%86%CC%89ng%20Vie%CC%A3%CC%82t%20My%CC%83%20-%20ba%CC%89n%20chua%CC%82%CC%89n%202025-01.png" alt="Logo Việt Mỹ" class="logo">
-        </div>
+        <img src="https://raw.githubusercontent.com/duongcanhquan/image/main/Logo%20Cao%20%C4%91a%CC%86%CC%89ng%20Vie%CC%A3%CC%82t%20My%CC%83%20-%20ba%CC%89n%20chua%CC%82%CC%89n%202025-01.png" alt="Logo Việt Mỹ" class="logo">
 
-        <div class="subtitle">TUYỂN SINH CAO ĐẲNG 2025</div>
+        <div class="badge">TUYỂN SINH CAO ĐẲNG</div>
 
         <h1>
             KHỞI ĐẦU VỮNG CHẮC<br>
-            <span class="gradient-text">TƯƠNG LAI RỘNG MỞ</span>
+            <span class="art-text">TƯƠNG LAI RỘNG MỞ</span>
         </h1>
 
         <p class="desc">
-            Không gian học tập chuẩn Quốc tế. Giải đáp mọi thắc mắc về Ngành học, 
-            Học phí & Cam kết việc làm 100% cùng <strong>VIETMY COLLEGE</strong>.
+            Giải đáp mọi thắc mắc về Ngành học, Học phí & Cơ hội việc làm cùng VIETMY COLLEGE.
         </p>
 
-        <button onclick="openChatApp()" class="btn-liquid">
+        <button onclick="openChatApp()" class="btn-crystal">
             Tư Vấn Ngay
-            <svg class="btn-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13 5L20 12L13 19M4 12H20" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </button>
 
