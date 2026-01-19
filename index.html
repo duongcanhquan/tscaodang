@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Cổng Tuyển Sinh - Cao Đẳng Việt Mỹ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --brand-orange: #F36F21; 
-            --brand-blue: #003366;
-            --bright-bg: #f8fbff;
+            --primary: #F36F21;
+            --secondary: #003366;
+            --bg-bright: #F0F4F8;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -19,176 +19,266 @@
             font-family: 'Montserrat', sans-serif;
             width: 100%;
             min-height: 100vh;
+            overflow: hidden;
             display: flex;
-            justify-content: center;
             align-items: center;
-            /* Nền sáng kết hợp các luồng sáng màu chuyển động */
-            background: 
-                radial-gradient(at 20% 20%, rgba(243, 111, 33, 0.15) 0%, transparent 60%),
-                radial-gradient(at 80% 80%, rgba(0, 51, 102, 0.15) 0%, transparent 60%),
-                radial-gradient(at 50% 50%, rgba(255, 192, 203, 0.15) 0%, transparent 50%),
-                var(--bright-bg);
-            background-size: 200% 200%;
-            animation: bgShift 20s ease-in-out infinite alternate;
-            padding: 20px;
-            overflow-x: hidden;
+            /* Nền sáng rực rỡ */
+            background: radial-gradient(circle at 10% 10%, #fff 0%, #eef2f5 90%);
+            position: relative;
         }
 
-        @keyframes bgShift {
-            0% { background-position: 0% 0%; }
-            100% { background-position: 100% 100%; }
+        /* Nền chuyển động nhẹ */
+        .bg-blob {
+            position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6; z-index: 0;
+            animation: breathe 10s infinite alternate;
         }
+        .blob-1 { top: -10%; left: -10%; width: 600px; height: 600px; background: rgba(243, 111, 33, 0.2); }
+        .blob-2 { bottom: -10%; right: 20%; width: 500px; height: 500px; background: rgba(0, 51, 102, 0.15); animation-delay: -5s; }
 
-        /* Các khối màu trôi nổi phía sau để tăng hiệu ứng kính */
-        .floating-shapes {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0; pointer-events: none; overflow: hidden;
-        }
-        .shape { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.5; }
-        .shape-1 { width: 400px; height: 400px; background: #FFD1A9; top: -10%; left: -5%; animation: float 15s infinite alternate; }
-        .shape-2 { width: 500px; height: 500px; background: #C4E0FF; bottom: -10%; right: -10%; animation: float 18s infinite alternate-reverse; }
+        @keyframes breathe { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
 
-        @keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(40px, 60px); } }
-
-
-        /* --- TẤM THẺ KÍNH MÀU SẮC (Colorful Glass Card) --- */
-        .glass-card {
+        /* --- CONTAINER CHÍNH (BỐ CỤC LỆCH) --- */
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             position: relative;
             z-index: 10;
-            width: 100%;
-            max-width: 900px;
-            padding: 70px 40px;
-            /* Nền kính trong suốt */
-            background: rgba(255, 255, 255, 0.3);
-            /* Blur mạnh và Tăng độ bão hòa màu để kính trông rực rỡ hơn */
-            backdrop-filter: blur(40px) saturate(180%);
-            -webkit-backdrop-filter: blur(40px) saturate(180%);
+        }
+
+        /* --- CỘT TRÁI: THẺ KÍNH (Chiếm 65%) --- */
+        .glass-wrapper {
+            flex: 0 0 65%; /* Bố cục 3/4 như yêu cầu */
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .glass-card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(30px) saturate(150%);
+            -webkit-backdrop-filter: blur(30px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.6);
             border-radius: 40px;
-            /* Viền kính sáng */
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            /* Kỹ thuật tạo kính màu: Kết hợp nhiều lớp bóng đổ màu sắc bên trong (inset) và bên ngoài */
+            padding: 80px 60px;
+            /* Bóng đổ màu tạo chiều sâu */
             box-shadow: 
-                inset 0 0 40px rgba(243, 111, 33, 0.1), /* Ánh cam bên trong */
-                inset 0 20px 20px rgba(255, 255, 255, 0.5), /* Phản chiếu ánh sáng trắng trên đỉnh */
-                0 30px 70px -20px rgba(0, 51, 102, 0.3), /* Bóng đổ chính màu xanh đậm */
-                0 0 30px rgba(243, 111, 33, 0.1); /* Vòng hào quang nhẹ màu cam bên ngoài */
-            
-            text-align: center;
-            display: flex; flex-direction: column; align-items: center;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                0 20px 50px rgba(0, 51, 102, 0.1),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+            overflow: hidden;
+            transition: transform 0.1s; /* Mượt mà cho hiệu ứng tilt */
         }
 
-        .glass-card:hover {
-            transform: translateY(-5px) scale(1.01);
+        /* Hiệu ứng Spotlight (Ánh sáng đi theo chuột) */
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(
+                800px circle at var(--mouse-x) var(--mouse-y), 
+                rgba(255, 255, 255, 0.4), 
+                transparent 40%
+            );
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
         }
-        
-        /* Hiệu ứng vệt sáng quét qua kính */
-        .glass-card::after {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.8), transparent);
-            transform: skewX(-25deg); animation: shine 6s infinite; pointer-events: none;
-        }
-        @keyframes shine { 0% { left: -100%; opacity: 0; } 50% { left: 150%; opacity: 1; } 100% { left: 150%; opacity: 0; } }
+        .glass-card:hover::before { opacity: 1; }
 
+        /* Nội dung bên trong */
+        .content-inner { position: relative; z-index: 2; }
 
-        /* --- NỘI DUNG --- */
-        .logo { width: 240px; margin-bottom: 40px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.05)); }
+        .logo { width: 220px; margin-bottom: 40px; display: block; }
 
         .badge {
-            display: inline-block;
-            font-size: 0.95rem; font-weight: 800;
-            color: var(--brand-blue);
-            background: rgba(255, 255, 255, 0.7); /* Nền badge sáng hơn */
-            padding: 10px 25px;
-            border-radius: 50px;
-            margin-bottom: 25px;
-            letter-spacing: 1px;
-            border: 2px solid var(--brand-orange); /* Viền cam nổi bật */
-            box-shadow: 0 5px 15px rgba(243, 111, 33, 0.15);
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 8px 16px;
+            background: rgba(243, 111, 33, 0.1);
+            color: var(--primary);
+            border-radius: 30px;
+            font-weight: 700; font-size: 0.9rem;
+            margin-bottom: 30px;
+            border: 1px solid rgba(243, 111, 33, 0.2);
         }
+        .status-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(243, 111, 33, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(243, 111, 33, 0); } 100% { box-shadow: 0 0 0 0 rgba(243, 111, 33, 0); } }
 
         h1 {
-            font-size: 4rem; line-height: 1.1;
-            font-weight: 900; color: var(--brand-blue);
-            margin-bottom: 30px;
+            font-size: 3.8rem;
+            line-height: 1.1;
+            font-weight: 900;
+            color: var(--secondary);
+            margin-bottom: 25px;
         }
 
-        /* Chữ gradient rực rỡ */
-        .vibrant-text {
-            background: linear-gradient(90deg, var(--brand-orange), #FF416C);
+        .highlight-text {
+            background: linear-gradient(90deg, var(--primary), #FF8E53);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            display: block; margin-top: 5px;
-            filter: drop-shadow(0 2px 5px rgba(243, 111, 33, 0.3));
+            position: relative;
+            display: inline-block;
+        }
+        /* Gạch chân nghệ thuật */
+        .highlight-text::after {
+            content: ''; position: absolute; bottom: 5px; left: 0; width: 100%; height: 8px;
+            background: rgba(243, 111, 33, 0.2); z-index: -1; transform: skewX(-20deg);
         }
 
         p.desc {
-            font-size: 1.2rem; color: #475569;
-            font-weight: 600; max-width: 700px;
-            margin: 0 auto 50px auto; line-height: 1.6;
+            font-size: 1.2rem; color: #506679;
+            font-weight: 500; line-height: 1.6;
+            margin-bottom: 50px; max-width: 90%;
         }
 
-        /* Nút bấm nổi bật */
-        .btn-glow {
-            padding: 22px 65px;
-            font-size: 1.3rem; font-weight: 800; color: white;
-            background: linear-gradient(45deg, var(--brand-orange), #ff8c42);
-            border: none; border-radius: 100px; cursor: pointer;
-            box-shadow: 0 15px 30px -10px rgba(243, 111, 33, 0.7);
-            transition: all 0.3s ease;
-            display: flex; align-items: center; gap: 15px;
-            text-transform: uppercase;
+        /* Nút bấm sáng tạo */
+        .btn-modern {
+            padding: 20px 50px;
+            font-size: 1.2rem; font-weight: 700;
+            color: white;
+            background: var(--secondary);
+            border: none; border-radius: 16px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0, 51, 102, 0.25);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-flex; align-items: center; gap: 10px;
         }
-        .btn-glow:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 20px 40px -10px rgba(243, 111, 33, 0.9);
-            background: linear-gradient(45deg, #ff8c42, var(--brand-orange));
+        .btn-modern:hover {
+            background: var(--primary);
+            box-shadow: 0 15px 35px rgba(243, 111, 33, 0.4);
+            transform: translateY(-3px) scale(1.02);
         }
+
+
+        /* --- CỘT PHẢI: HIỆU ỨNG DOTS & HÌNH KHỐI (35%) --- */
+        .visual-area {
+            flex: 0 0 35%;
+            height: 600px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Lưới chấm bi (Dots Grid) */
+        .dots-grid {
+            position: absolute;
+            width: 100%; height: 100%;
+            background-image: radial-gradient(#cbd5e1 2px, transparent 2px);
+            background-size: 30px 30px;
+            opacity: 0.6;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+            animation: rotateDots 60s linear infinite;
+        }
+
+        /* Các khối kính bay lơ lửng bên phải */
+        .float-glass {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: floatY 6s ease-in-out infinite;
+        }
+
+        .glass-box {
+            width: 120px; height: 120px;
+            border-radius: 20px;
+            top: 30%; right: 20%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1));
+            transform: rotate(-15deg);
+        }
+
+        .glass-circle {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            bottom: 25%; left: 10%;
+            background: linear-gradient(135deg, rgba(243,111,33,0.3), rgba(255,255,255,0.1));
+            animation-delay: -2s;
+        }
+
+        .glass-pill {
+            width: 180px; height: 60px;
+            border-radius: 50px;
+            top: 15%; left: 0%;
+            background: linear-gradient(135deg, rgba(0,51,102,0.2), rgba(255,255,255,0.1));
+            animation-delay: -4s;
+        }
+
+        @keyframes rotateDots { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes floatY { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(5deg); } }
+
 
         /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .container { flex-direction: column; justify-content: center; }
+            .glass-wrapper { flex: 0 0 100%; width: 100%; margin-bottom: 40px; }
+            .visual-area { width: 100%; height: 300px; }
+            h1 { font-size: 3rem; }
+        }
         @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .glass-card { padding: 50px 25px; }
-            p.desc { font-size: 1.1rem; }
-            .logo { width: 200px; }
-            .btn-glow { width: 100%; padding: 20px; justify-content: center; font-size: 1.1rem; }
+            .glass-card { padding: 40px 30px; }
+            h1 { font-size: 2.2rem; }
+            .logo { width: 180px; }
+            .btn-modern { width: 100%; justify-content: center; }
+            /* Ẩn bớt visual area trên mobile để tập trung nội dung */
+            .visual-area { display: none; } 
         }
     </style>
 </head>
 <body>
-    <div class="floating-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-    </div>
 
-    <main class="glass-card">
+    <div class="bg-blob blob-1"></div>
+    <div class="bg-blob blob-2"></div>
+
+    <div class="container">
         
-        <img src="https://raw.githubusercontent.com/duongcanhquan/image/main/Logo%20Cao%20%C4%91a%CC%86%CC%89ng%20Vie%CC%A3%CC%82t%20My%CC%83%20-%20ba%CC%89n%20chua%CC%82%CC%89n%202025-01.png" alt="Logo Việt Mỹ" class="logo">
+        <div class="glass-wrapper" id="glassWrapper">
+            <div class="glass-card" id="glassCard">
+                <div class="content-inner">
+                    <img src="https://raw.githubusercontent.com/duongcanhquan/image/main/Logo%20Cao%20%C4%91a%CC%86%CC%89ng%20Vie%CC%A3%CC%82t%20My%CC%83%20-%20ba%CC%89n%20chua%CC%82%CC%89n%202025-01.png" alt="Logo Việt Mỹ" class="logo">
+                    
+                    <div class="badge">
+                        <div class="status-dot"></div> TUYỂN SINH CAO ĐẲNG
+                    </div>
 
-        <div class="badge">TUYỂN SINH CAO ĐẲNG</div>
+                    <h1>
+                        Kiến Tạo Tương Lai<br>
+                        <span class="highlight-text">VỮNG BƯỚC THÀNH CÔNG</span>
+                    </h1>
 
-        <h1>
-            KHỞI ĐẦU VỮNG CHẮC<br>
-            <span class="vibrant-text">TƯƠNG LAI RỘNG MỞ</span>
-        </h1>
+                    <p class="desc">
+                        Chương trình đào tạo thực tiễn, kết nối doanh nghiệp hàng đầu. <br>
+                        Đăng ký ngay để nhận tư vấn lộ trình học tập tối ưu.
+                    </p>
 
-        <p class="desc">
-            Không gian học tập sáng tạo chuẩn Quốc tế. <br>Giải đáp 24/7 mọi thắc mắc về Ngành học, Học phí & Cơ hội việc làm.
-        </p>
+                    <button onclick="openChatApp()" class="btn-modern">
+                        Tư Vấn Ngay 🚀
+                    </button>
+                </div>
+            </div>
+        </div>
 
-        <button onclick="openChatApp()" class="btn-glow">
-            Tư Vấn Ngay
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </button>
+        <div class="visual-area">
+            <div class="dots-grid"></div>
+            
+            <div class="float-glass glass-box"></div>
+            <div class="float-glass glass-circle"></div>
+            <div class="float-glass glass-pill"></div>
+        </div>
 
-    </main>
+    </div>
 
     <script>
         function openChatApp() {
             const url = "https://notebooklm.google.com/notebook/87d86e86-535f-43d9-b018-a60a86394e80";
             const w = 500; const h = 700;
+            // Xử lý vị trí mở window
             const dualScreenLeft = window.screenLeft !==  undefined ? window.screenLeft : window.screenX;
             const dualScreenTop = window.screenTop !==  undefined   ? window.screenTop  : window.screenY;
             const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
@@ -199,6 +289,36 @@
             const newWindow = window.open(url, 'ChatbotVietMy', `scrollbars=yes, width=${w / systemZoom}, height=${h / systemZoom}, top=${top}, left=${left}, status=no, menubar=no, toolbar=no, resizable=yes`);
             if (window.focus) newWindow.focus();
         }
+
+        // --- SCRIPT XỬ LÝ HIỆU ỨNG SPOTLIGHT & TILT ---
+        const card = document.getElementById('glassCard');
+        const wrapper = document.getElementById('glassWrapper');
+
+        wrapper.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // 1. Cập nhật vị trí Spotlight
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+
+            // 2. Tính toán hiệu ứng nghiêng (Tilt) nhẹ
+            // Tính tâm của thẻ
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            // Góc nghiêng (chia cho số lớn để nghiêng ít thôi, cho sang)
+            const rotateX = (y - centerY) / -40;
+            const rotateY = (x - centerX) / 40;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        // Reset khi chuột rời đi
+        wrapper.addEventListener('mouseleave', () => {
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+        });
     </script>
 </body>
 </html>
