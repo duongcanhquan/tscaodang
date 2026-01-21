@@ -18,216 +18,189 @@
         body {
             font-family: 'Montserrat', sans-serif;
             width: 100%;
-            min-height: 100vh;
-            overflow: hidden;
+            min-height: 100vh; 
+            overflow-x: hidden;
+            overflow-y: auto; 
             display: flex;
             align-items: center;
-            /* Nền sáng rực rỡ */
+            justify-content: center;
             background: radial-gradient(circle at 10% 10%, #fff 0%, #eef2f5 90%);
             position: relative;
+            padding: 20px;
         }
 
-        /* Nền chuyển động nhẹ */
+        /* Nền chuyển động */
         .bg-blob {
-            position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6; z-index: 0;
+            position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: 0;
             animation: breathe 10s infinite alternate;
         }
-        .blob-1 { top: -10%; left: -10%; width: 600px; height: 600px; background: rgba(243, 111, 33, 0.2); }
-        .blob-2 { bottom: -10%; right: 20%; width: 500px; height: 500px; background: rgba(0, 51, 102, 0.15); animation-delay: -5s; }
-
+        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: rgba(243, 111, 33, 0.15); }
+        .blob-2 { bottom: -10%; right: 10%; width: 40vw; height: 40vw; background: rgba(0, 51, 102, 0.1); animation-delay: -5s; }
         @keyframes breathe { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
 
-        /* --- CONTAINER CHÍNH (BỐ CỤC LỆCH) --- */
+        /* --- CONTAINER --- */
         .container {
             width: 100%;
-            max-width: 1400px;
+            max-width: 1300px;
             margin: 0 auto;
-            padding: 0 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             position: relative;
             z-index: 10;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* --- CỘT TRÁI: THẺ KÍNH (Chiếm 65%) --- */
+        /* --- CỘT TRÁI --- */
         .glass-wrapper {
-            flex: 0 0 65%; /* Bố cục 3/4 như yêu cầu */
-            position: relative;
+            flex: 1 1 600px;
+            max-width: 800px;
+            padding-right: 20px;
             perspective: 1000px;
         }
 
         .glass-card {
             position: relative;
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(30px) saturate(150%);
-            -webkit-backdrop-filter: blur(30px) saturate(150%);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            border-radius: 40px;
-            padding: 80px 60px;
-            /* Bóng đổ màu tạo chiều sâu */
-            box-shadow: 
-                0 20px 50px rgba(0, 51, 102, 0.1),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-            overflow: hidden;
-            transition: transform 0.1s; /* Mượt mà cho hiệu ứng tilt */
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(25px) saturate(120%);
+            -webkit-backdrop-filter: blur(25px) saturate(120%);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 30px;
+            padding: 50px 40px; 
+            box-shadow: 0 20px 40px rgba(0, 51, 102, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+            transition: transform 0.2s;
         }
 
-        /* Hiệu ứng Spotlight (Ánh sáng đi theo chuột) */
+        /* Spotlight Effect */
         .glass-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(
-                800px circle at var(--mouse-x) var(--mouse-y), 
-                rgba(255, 255, 255, 0.4), 
-                transparent 40%
-            );
-            z-index: 0;
-            opacity: 0;
-            transition: opacity 0.5s;
-            pointer-events: none;
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.6), transparent 40%);
+            z-index: 0; opacity: 0; transition: opacity 0.5s; pointer-events: none; border-radius: 30px;
         }
         .glass-card:hover::before { opacity: 1; }
 
-        /* Nội dung bên trong */
         .content-inner { position: relative; z-index: 2; }
-
-        .logo { width: 220px; margin-bottom: 40px; display: block; }
+        .logo { width: 180px; margin-bottom: 30px; display: block; }
 
         .badge {
             display: inline-flex; align-items: center; gap: 8px;
-            padding: 8px 16px;
+            padding: 6px 14px;
             background: rgba(243, 111, 33, 0.1);
             color: var(--primary);
             border-radius: 30px;
-            font-weight: 700; font-size: 0.9rem;
-            margin-bottom: 30px;
+            font-weight: 700; font-size: 0.85rem;
+            margin-bottom: 20px;
             border: 1px solid rgba(243, 111, 33, 0.2);
         }
         .status-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(243, 111, 33, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(243, 111, 33, 0); } 100% { box-shadow: 0 0 0 0 rgba(243, 111, 33, 0); } }
 
         h1 {
-            font-size: 3.8rem;
-            line-height: 1.1;
-            font-weight: 900;
-            color: var(--secondary);
-            margin-bottom: 25px;
+            font-size: clamp(2.2rem, 5vw, 3.2rem); 
+            line-height: 1.15; font-weight: 900; color: var(--secondary); margin-bottom: 20px;
         }
-
         .highlight-text {
             background: linear-gradient(90deg, var(--primary), #FF8E53);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            position: relative;
-            display: inline-block;
-        }
-        /* Gạch chân nghệ thuật */
-        .highlight-text::after {
-            content: ''; position: absolute; bottom: 5px; left: 0; width: 100%; height: 8px;
-            background: rgba(243, 111, 33, 0.2); z-index: -1; transform: skewX(-20deg);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            position: relative; display: inline-block;
         }
 
         p.desc {
-            font-size: 1.2rem; color: #506679;
-            font-weight: 500; line-height: 1.6;
-            margin-bottom: 50px; max-width: 90%;
+            font-size: 1.1rem; color: #506679; font-weight: 500; line-height: 1.6;
+            margin-bottom: 35px; max-width: 95%;
         }
 
-        /* Nút bấm sáng tạo */
-        .btn-modern {
-            padding: 20px 50px;
-            font-size: 1.2rem; font-weight: 700;
-            color: white;
-            background: var(--secondary);
-            border: none; border-radius: 16px;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(0, 51, 102, 0.25);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: inline-flex; align-items: center; gap: 10px;
-        }
-        .btn-modern:hover {
-            background: var(--primary);
-            box-shadow: 0 15px 35px rgba(243, 111, 33, 0.4);
-            transform: translateY(-3px) scale(1.02);
-        }
-
-
-        /* --- CỘT PHẢI: HIỆU ỨNG DOTS & HÌNH KHỐI (35%) --- */
-        .visual-area {
-            flex: 0 0 35%;
-            height: 600px;
-            position: relative;
+        /* --- NHÓM NÚT BẤM --- */
+        .btn-group {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap; /* Tự động xuống dòng nếu chật */
         }
 
-        /* Lưới chấm bi (Dots Grid) */
+        .btn-modern {
+            padding: 16px 35px;
+            font-size: 1.1rem; font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            text-decoration: none; /* Vì dùng thẻ a */
+            white-space: nowrap;
+        }
+
+        /* Style 1: Nút Chat (Solid) */
+        .btn-chat {
+            color: white; 
+            background: var(--secondary);
+            border: 2px solid var(--secondary);
+            box-shadow: 0 8px 20px rgba(0, 51, 102, 0.2);
+        }
+        .btn-chat:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 12px 30px rgba(243, 111, 33, 0.3);
+            transform: translateY(-3px);
+        }
+
+        /* Style 2: Nút Gọi (Outline) */
+        .btn-call {
+            background: rgba(255,255,255,0.6);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        .btn-call:hover {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 12px 30px rgba(243, 111, 33, 0.3);
+            transform: translateY(-3px);
+        }
+
+
+        /* --- CỘT PHẢI: VISUAL --- */
+        .visual-area {
+            flex: 1 1 300px;
+            height: 500px;
+            position: relative;
+            display: flex; justify-content: center; align-items: center;
+            min-width: 300px;
+        }
         .dots-grid {
-            position: absolute;
-            width: 100%; height: 100%;
+            position: absolute; width: 100%; height: 100%;
             background-image: radial-gradient(#cbd5e1 2px, transparent 2px);
-            background-size: 30px 30px;
-            opacity: 0.6;
-            mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
-            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
-            animation: rotateDots 60s linear infinite;
+            background-size: 25px 25px; opacity: 0.6;
+            mask-image: radial-gradient(circle at center, black 50%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black 50%, transparent 80%);
+            animation: rotateDots 80s linear infinite;
         }
-
-        /* Các khối kính bay lơ lửng bên phải */
         .float-glass {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            animation: floatY 6s ease-in-out infinite;
+            position: absolute; background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); animation: floatY 6s ease-in-out infinite;
         }
-
-        .glass-box {
-            width: 120px; height: 120px;
-            border-radius: 20px;
-            top: 30%; right: 20%;
-            background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1));
-            transform: rotate(-15deg);
-        }
-
-        .glass-circle {
-            width: 80px; height: 80px;
-            border-radius: 50%;
-            bottom: 25%; left: 10%;
-            background: linear-gradient(135deg, rgba(243,111,33,0.3), rgba(255,255,255,0.1));
-            animation-delay: -2s;
-        }
-
-        .glass-pill {
-            width: 180px; height: 60px;
-            border-radius: 50px;
-            top: 15%; left: 0%;
-            background: linear-gradient(135deg, rgba(0,51,102,0.2), rgba(255,255,255,0.1));
-            animation-delay: -4s;
-        }
+        .glass-box { width: 100px; height: 100px; border-radius: 20px; top: 25%; right: 15%; transform: rotate(-15deg); }
+        .glass-circle { width: 70px; height: 70px; border-radius: 50%; bottom: 20%; left: 10%; animation-delay: -2s; background: linear-gradient(135deg, rgba(243,111,33,0.1), rgba(255,255,255,0.2)); }
+        .glass-pill { width: 140px; height: 50px; border-radius: 50px; top: 10%; left: 5%; animation-delay: -4s; background: linear-gradient(135deg, rgba(0,51,102,0.1), rgba(255,255,255,0.2)); }
 
         @keyframes rotateDots { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes floatY { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(5deg); } }
+        @keyframes floatY { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-15px) rotate(5deg); } }
 
+        /* --- MOBILE --- */
+        @media (max-width: 900px) {
+            body { height: auto; display: block; padding: 15px; }
+            .container { flex-direction: column; }
+            .glass-wrapper { flex: auto; width: 100%; padding-right: 0; margin-bottom: 20px; }
+            .glass-card { padding: 30px 20px; text-align: center; }
+            .content-inner { display: flex; flex-direction: column; align-items: center; }
+            .logo { width: 150px; margin: 0 auto 20px auto; }
+            h1 { font-size: 2rem; margin-bottom: 15px; }
+            p.desc { font-size: 1rem; margin-bottom: 25px; }
+            
+            /* Nút bấm trên mobile: Xếp dọc */
+            .btn-group { width: 100%; flex-direction: column; gap: 10px; }
+            .btn-modern { width: 100%; }
 
-        /* RESPONSIVE */
-        @media (max-width: 1024px) {
-            .container { flex-direction: column; justify-content: center; }
-            .glass-wrapper { flex: 0 0 100%; width: 100%; margin-bottom: 40px; }
-            .visual-area { width: 100%; height: 300px; }
-            h1 { font-size: 3rem; }
-        }
-        @media (max-width: 768px) {
-            .glass-card { padding: 40px 30px; }
-            h1 { font-size: 2.2rem; }
-            .logo { width: 180px; }
-            .btn-modern { width: 100%; justify-content: center; }
-            /* Ẩn bớt visual area trên mobile để tập trung nội dung */
-            .visual-area { display: none; } 
+            .visual-area { height: 200px; width: 100%; margin-bottom: -50px; z-index: 0; }
+            .glass-box, .glass-pill { display: none; }
         }
     </style>
 </head>
@@ -237,7 +210,6 @@
     <div class="bg-blob blob-2"></div>
 
     <div class="container">
-        
         <div class="glass-wrapper" id="glassWrapper">
             <div class="glass-card" id="glassCard">
                 <div class="content-inner">
@@ -253,32 +225,35 @@
                     </h1>
 
                     <p class="desc">
-                        Giải đáp mọi thắc mắc về Ngành học, Học phí <br>
-                        Cơ hội việc làm cùng VIETMY COLLEGE
+                        Giải đáp mọi thắc mắc về Ngành học, Học phí & Cơ hội việc làm cùng VIETMY COLLEGE.
                     </p>
 
-                    <button onclick="openChatApp()" class="btn-modern">
-                        Nhận Tư Vấn Ngay 🚀
-                    </button>
+                    <div class="btn-group">
+                        <button onclick="openChatApp()" class="btn-modern btn-chat">
+                            Tư vấn online 🚀
+                        </button>
+                        
+                        <a href="tel:0964809860" class="btn-modern btn-call">
+                            Tư Vấn Trực Tiếp 📞
+                        </a>
+                    </div>
+
                 </div>
             </div>
         </div>
 
         <div class="visual-area">
             <div class="dots-grid"></div>
-            
             <div class="float-glass glass-box"></div>
             <div class="float-glass glass-circle"></div>
             <div class="float-glass glass-pill"></div>
         </div>
-
     </div>
 
     <script>
         function openChatApp() {
             const url = "https://notebooklm.google.com/notebook/87d86e86-535f-43d9-b018-a60a86394e80";
             const w = 500; const h = 700;
-            // Xử lý vị trí mở window
             const dualScreenLeft = window.screenLeft !==  undefined ? window.screenLeft : window.screenX;
             const dualScreenTop = window.screenTop !==  undefined   ? window.screenTop  : window.screenY;
             const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
@@ -290,35 +265,26 @@
             if (window.focus) newWindow.focus();
         }
 
-        // --- SCRIPT XỬ LÝ HIỆU ỨNG SPOTLIGHT & TILT ---
+        // JS cho PC
         const card = document.getElementById('glassCard');
         const wrapper = document.getElementById('glassWrapper');
-
-        wrapper.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            // 1. Cập nhật vị trí Spotlight
-            card.style.setProperty('--mouse-x', `${x}px`);
-            card.style.setProperty('--mouse-y', `${y}px`);
-
-            // 2. Tính toán hiệu ứng nghiêng (Tilt) nhẹ
-            // Tính tâm của thẻ
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            // Góc nghiêng (chia cho số lớn để nghiêng ít thôi, cho sang)
-            const rotateX = (y - centerY) / -40;
-            const rotateY = (x - centerX) / 40;
-
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        });
-
-        // Reset khi chuột rời đi
-        wrapper.addEventListener('mouseleave', () => {
-            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
-        });
+        if (window.matchMedia("(min-width: 900px)").matches) {
+            wrapper.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / -40;
+                const rotateY = (x - centerX) / 40;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            wrapper.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+            });
+        }
     </script>
 </body>
 </html>
